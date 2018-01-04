@@ -97,10 +97,11 @@ public class MainActivity extends AppCompatActivity {
             //1.1 设置音频文件路径, 设置为循环, 初始化MediaPlayer
             if (mType == 1) {
                 mediaPlayer.setDataSource(mFilePath);
-
-            } else {
+            } else if (mType == 2) {
                 Uri uri = Uri.parse("android.resource://com.so.mymusic/" + R.raw.one);
                 mediaPlayer.setDataSource(this, uri);
+            } else {
+                return;
             }
 
             mediaPlayer.setLooping(true);
