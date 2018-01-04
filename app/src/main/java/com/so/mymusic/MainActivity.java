@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -16,10 +17,12 @@ import static com.so.mymusic.utils.PermissionsUtil.verifyStoragePermissions;
 public class MainActivity extends AppCompatActivity {
 
     private EditText et_input_path;
+    private SeekBar sb_progress;
     private String mFilePath = "";
     private MediaPlayer mediaPlayer = new MediaPlayer();
     private boolean isSeek;
-    private SeekBar sb_progress;
+    private String TAG = "sorrower";
+    private boolean keepTrue = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,25 +32,15 @@ public class MainActivity extends AppCompatActivity {
         //23+权限获取
         verifyStoragePermissions(this);
 
-        et_input_path = (EditText) findViewById(R.id.et_input_path);
-
-
+        initUI();
+        initSeekBar();
     }
 
     /**
-     * 初始化播放器MediaPlayer
+     * 初始化进度条
      */
-    private void initMediaPlayer() {
-        try {
-            //设置音频文件路径, 设置为循环, 初始化MediaPlayer
-            mediaPlayer.setDataSource(mFilePath);
-            mediaPlayer.setLooping(true);
-            mediaPlayer.prepare();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        sb_progress = (SeekBar) findViewById(R.id.sb_progress);
+    private void initSeekBar() {
+        //1. 设置进度条监听
         isSeek = false;
         sb_progress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -66,10 +59,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //2. 开启线程同步进度条
         new Thread() {
             @Override
             public void run() {
-                while (true) {
+                while (keepTrue) {
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
@@ -84,9 +78,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * 初始化ui
+     */
+    private void initUI() {
+        et_input_path = (EditText) findViewById(R.id.et_input_path);
+        sb_progress = (SeekBar) findViewById(R.id.sb_progress);
+    }
+
+    /**
+     * 初始化播放器MediaPlayer
+     */
+    private void initMediaPlayer() {
+        //1. 加载选中歌曲
+        try {
+            //1.1 设置音频文件路径, 设置为循环, 初始化MediaPlayer
+            mediaPlayer.setDataSource(mFilePath);
+            mediaPlayer.setLooping(true);
+            mediaPlayer.prepare();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 选择一个文件, 返回其绝对路径
      *
-     * @param v
+     * @param v 选择按钮
      */
     public void selectFile(View v) {
         Intent intent = new Intent(this, SelectFileActivity.class);
@@ -94,54 +111,54 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * @param requestCode 请求码
+     * @param resultCode  结果码
+     * @param data        意图
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == 1) {
-            //获取选中的mFilePath
+            //1. 获取选中的mFilePath
             mFilePath = data.getStringExtra("path");
 //            Toast.makeText(getApplicationContext(),
 //                    mFilePath, Toast.LENGTH_SHORT).show();
 
             et_input_path.setText(mFilePath);
 
+            //2. 初始化播放器
             initMediaPlayer();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**
-     * @param v
+     * @param v 播放按钮
      */
     public void playMusic(View v) {
+        //1. 获取文件的持续时间
         sb_progress.setMax(mediaPlayer.getDuration());
-        //如果没在播放中，立刻开始播放。
+
         if (!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
         }
     }
 
     /**
-     * @param v
+     * @param v 暂停按钮
      */
     public void pauseMusic(View v) {
-        //如果在播放中，立刻暂停。
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
         }
     }
 
     /**
-     * @param v
+     * @param v 停止按钮
      */
     public void stopMusic(View v) {
-        //如果在播放中，立刻停止
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.reset();
-            initMediaPlayer();//初始化播放器 MediaPlayer
+            initMediaPlayer();
         }
     }
 
@@ -155,9 +172,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
+     * @param requestCode  请求码
+     * @param permissions  权限
+     * @param grantResults 授予结果
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -165,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
             case 1:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //initMediaPlayer();
+                    Log.i(TAG, "成功获取权限");
                 } else {
                     Toast.makeText(this, "拒绝权限, 将无法使用程序.", Toast.LENGTH_LONG).show();
                     finish();

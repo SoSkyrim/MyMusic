@@ -1,8 +1,4 @@
 <resources>
     <string name="app_name">我的音乐</string>
     <string name="et_input_path_hin">请输入文件路径:</string>
-    <string name="bt_select">select</string>
-    <string name="bt_play">play</string>
-    <string name="bt_pause">pause</string>
-    <string name="bt_stop">stop</string>
 </resources>

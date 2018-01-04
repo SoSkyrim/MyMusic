@@ -13,13 +13,14 @@
         android:layout_height="wrap_content"
         android:hint="@string/et_input_path_hin" />
 
-    <Button
+    <ImageButton
         android:id="@+id/bt_select"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
+        android:background="@drawable/search"
         android:onClick="selectFile"
-        android:text="@string/bt_select" />
+        tools:ignore="ContentDescription" />
 
     <SeekBar
         android:id="@+id/sb_progress"
@@ -27,38 +28,38 @@
         android:layout_height="wrap_content"
         android:padding="8dp" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/bt_play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:onClick="playMusic"
-            android:text="@string/bt_play"
-            tools:ignore="ButtonStyle" />
-
-        <Button
+        <ImageButton
             android:id="@+id/bt_pause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
             android:layout_margin="8dp"
-            android:layout_weight="1"
+            android:background="@drawable/pause"
             android:onClick="pauseMusic"
-            android:text="@string/bt_pause"
-            tools:ignore="ButtonStyle" />
+            tools:ignore="ButtonStyle,ContentDescription" />
 
-        <Button
-            android:id="@+id/bt_stop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageButton
+            android:id="@+id/bt_play"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_margin="8dp"
-            android:layout_weight="1"
+            android:layout_toLeftOf="@id/bt_pause"
+            android:background="@drawable/play"
+            android:onClick="playMusic"
+            tools:ignore="ButtonStyle,ContentDescription,RtlHardcoded" />
+
+        <ImageButton
+            android:id="@+id/bt_stop"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:layout_toRightOf="@id/bt_pause"
+            android:background="@drawable/stop"
             android:onClick="stopMusic"
-            android:text="@string/bt_stop"
-            tools:ignore="ButtonStyle" />
-    </LinearLayout>
+            tools:ignore="ButtonStyle,ContentDescription,RtlHardcoded" />
+    </RelativeLayout>
 </LinearLayout>
