@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
     private void initMediaPlayer() {
         //1. 加载选中歌曲
         try {
-            //1.1 设置音频文件路径, 设置为循环, 初始化MediaPlayer
+            //1.1 设置音频文件路径, 或者是资源uri
             if (mType == 1) {
                 mediaPlayer.setDataSource(mFilePath);
             } else if (mType == 2) {
@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
+            //1.2 设置为循环, MediaPlayer预加载
             mediaPlayer.setLooping(true);
             mediaPlayer.prepare();
         } catch (Exception e) {
