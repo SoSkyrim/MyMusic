@@ -7,20 +7,39 @@
     android:padding="8dp"
     tools:context="com.so.mymusic.MainActivity">
 
+
     <EditText
         android:id="@+id/et_input_path"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/et_input_path_hin" />
 
-    <ImageButton
-        android:id="@+id/bt_select"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/search"
-        android:onClick="selectFile"
-        tools:ignore="ContentDescription" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/ib_select"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/search"
+            android:onClick="selectMusic"
+            tools:ignore="ContentDescription,RtlHardcoded"
+            android:contentDescription="" />
+
+        <ImageButton
+            android:id="@+id/ib_add_music"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:layout_toLeftOf="@id/ib_select"
+            android:background="@drawable/add"
+            android:onClick="addMusic"
+            tools:ignore="ContentDescription,RtlHardcoded" />
+    </RelativeLayout>
 
     <SeekBar
         android:id="@+id/sb_progress"
@@ -33,7 +52,7 @@
         android:layout_height="wrap_content">
 
         <ImageButton
-            android:id="@+id/bt_pause"
+            android:id="@+id/ib_pause"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerHorizontal="true"
@@ -43,21 +62,21 @@
             tools:ignore="ButtonStyle,ContentDescription" />
 
         <ImageButton
-            android:id="@+id/bt_play"
+            android:id="@+id/ib_play"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="8dp"
-            android:layout_toLeftOf="@id/bt_pause"
+            android:layout_toLeftOf="@id/ib_pause"
             android:background="@drawable/play"
             android:onClick="playMusic"
             tools:ignore="ButtonStyle,ContentDescription,RtlHardcoded" />
 
         <ImageButton
-            android:id="@+id/bt_stop"
+            android:id="@+id/ib_stop"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="8dp"
-            android:layout_toRightOf="@id/bt_pause"
+            android:layout_toRightOf="@id/ib_pause"
             android:background="@drawable/stop"
             android:onClick="stopMusic"
             tools:ignore="ButtonStyle,ContentDescription,RtlHardcoded" />

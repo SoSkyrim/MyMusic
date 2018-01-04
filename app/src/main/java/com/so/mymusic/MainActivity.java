@@ -3,6 +3,7 @@ package com.so.mymusic;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean isSeek;
     private String TAG = "sorrower";
     private boolean keepTrue = true;
+    private int mType = 0;
+    private String mRawMusic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +95,14 @@ public class MainActivity extends AppCompatActivity {
         //1. 加载选中歌曲
         try {
             //1.1 设置音频文件路径, 设置为循环, 初始化MediaPlayer
-            mediaPlayer.setDataSource(mFilePath);
+            if (mType == 1) {
+                mediaPlayer.setDataSource(mFilePath);
+
+            } else {
+                Uri uri = Uri.parse("android.resource://com.so.mymusic/" + R.raw.one);
+                mediaPlayer.setDataSource(this, uri);
+            }
+
             mediaPlayer.setLooping(true);
             mediaPlayer.prepare();
         } catch (Exception e) {
@@ -105,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param v 选择按钮
      */
-    public void selectFile(View v) {
+    public void selectMusic(View v) {
         Intent intent = new Intent(this, SelectFileActivity.class);
         startActivityForResult(intent, 0);
     }
@@ -126,9 +136,21 @@ public class MainActivity extends AppCompatActivity {
             et_input_path.setText(mFilePath);
 
             //2. 初始化播放器
+            mType = 1;
             initMediaPlayer();
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * @param v 使用资源文件中的音乐
+     */
+    public void addMusic(View v) {
+        mRawMusic = "R.raw.one";
+        et_input_path.setText(mRawMusic);
+        //2. 初始化播放器
+        mType = 2;
+        initMediaPlayer();
     }
 
     /**
