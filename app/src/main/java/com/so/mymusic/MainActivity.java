@@ -113,6 +113,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * @param v 使用资源文件中的音乐
+     */
+    public void addMusic(View v) {
+        mRawMusic = "R.raw.one";
+        et_input_path.setText(mRawMusic);
+        //2. 初始化播放器
+        mType = 2;
+        initMediaPlayer();
+    }
+
+    /**
      * 选择一个文件, 返回其绝对路径
      *
      * @param v 选择按钮
@@ -142,17 +153,6 @@ public class MainActivity extends AppCompatActivity {
             initMediaPlayer();
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    /**
-     * @param v 使用资源文件中的音乐
-     */
-    public void addMusic(View v) {
-        mRawMusic = "R.raw.one";
-        et_input_path.setText(mRawMusic);
-        //2. 初始化播放器
-        mType = 2;
-        initMediaPlayer();
     }
 
     /**
