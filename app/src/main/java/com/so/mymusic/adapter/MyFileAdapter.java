@@ -20,17 +20,21 @@ import java.util.Date;
 
 /**
  * Created by so on 2017/12/29.
+ *
  */
 
 public class MyFileAdapter extends BaseAdapter {
-    ArrayList<File> mFileArrayList;
-    Context mContext;
+    private static String formatk;
+    private static String formatm;
+    private static String formatg;
+    private ArrayList<File> mFileArrayList;
+    private Context mContext;
     //排序方法
-    int sortWay = FileSortFactory.SORT_BY_FOLDER_AND_NAME;
+    private int sortWay = FileSortFactory.SORT_BY_FOLDER_AND_NAME;
 
     /**
-     * @param context
-     * @param fileArrayList
+     * @param context       上下文
+     * @param fileArrayList 文件信息
      */
     public MyFileAdapter(Context context, ArrayList<File> fileArrayList) {
         this.mContext = context;
@@ -39,7 +43,7 @@ public class MyFileAdapter extends BaseAdapter {
 
     /**
      * @param fileArrayList 传入的新fileArrayList
-     * @return
+     * @return file[]
      */
     public File[] setFilesData(ArrayList<File> fileArrayList) {
         //1.ArrayList<File>赋值
@@ -108,13 +112,13 @@ public class MyFileAdapter extends BaseAdapter {
     /**
      * 控件设置
      */
-    public static class ViewHolder {
-        ImageView fileImage;
-        TextView fileName;
-        TextView fileSize;
-        TextView fileTime;
+    private static class ViewHolder {
+        private ImageView fileImage;
+        private TextView fileName;
+        private TextView fileSize;
+        private TextView fileTime;
 
-        public ViewHolder(View v) {
+        private ViewHolder(View v) {
             fileImage = (ImageView) v.findViewById(R.id.iv_file_image);
             fileName = (TextView) v.findViewById(R.id.tv_file_name);
             fileSize = (TextView) v.findViewById(R.id.tv_file_size);
@@ -126,7 +130,7 @@ public class MyFileAdapter extends BaseAdapter {
      * @param file 当前文件
      * @return 文件大小
      */
-    public static String NormalSize(File file) {
+    private static String NormalSize(File file) {
         if (file.isFile()) {
             long result = file.length();
             long gb = 2 << 29;
@@ -135,11 +139,14 @@ public class MyFileAdapter extends BaseAdapter {
             if (result < kb) {
                 return result + "B";
             } else if (result >= kb && result < mb) {
-                return String.format("%.2fKB", result / (double) kb);
+                formatk = "%.2fKB";
+                return String.format(formatk, result / (double) kb);
             } else if (result >= mb && result < gb) {
-                return String.format("%.2fMB", result / (double) mb);
+                formatm = "%.2fMB";
+                return String.format(formatm, result / (double) mb);
             } else if (result >= gb) {
-                return String.format("%.2fGB", result / (double) gb);
+                formatg = "%.2fGB";
+                return String.format(formatg, result / (double) gb);
             }
         }
         return null;
