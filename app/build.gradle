@@ -10,11 +10,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        ndk {
-            moduleName "SToHC"
-            ldLibs "log", "z", "m"
-            abiFilters "armeabi-v7a", "x86", "x86_64"
-        }
     }
     buildTypes {
         release {

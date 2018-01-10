@@ -3,6 +3,7 @@ package com.so.mymusic;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -11,11 +12,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Toast;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 
 import static com.so.mymusic.utils.PermissionsUtil.verifyStoragePermissions;
 
@@ -95,81 +91,21 @@ public class MainActivity extends AppCompatActivity {
      * 初始化播放器MediaPlayer
      */
     private void initMediaPlayer() {
-//        //1. 加载选中歌曲
-//        try {
-//            //1.1 设置音频文件路径, 或者是资源uri
-//            if (mType == 1) {
-//                mediaPlayer.setDataSource(mFilePath);
-//            } else if (mType == 2) {
-//                Uri uri = Uri.parse("android.resource://com.so.mymusic/" + R.raw.one);
-//                mediaPlayer.setDataSource(this, uri);
-//            } else {
-//                return;
-//            }
-//
-//            //1.2 设置为循环, MediaPlayer预加载
-//            mediaPlayer.setLooping(true);
-//            mediaPlayer.prepare();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
+        //1. 加载选中歌曲
         try {
-            File file = new File(mFilePath);
-            int length = (int) file.length();
-            byte[] bytes = new byte[length];
-            FileInputStream music = new FileInputStream(file);
-            int read = music.read(bytes, 0, bytes.length);
-            Log.i(TAG, "read ret: " + read);
+            //1.1 设置音频文件路径, 或者是资源uri
+            if (mType == 1) {
+                mediaPlayer.setDataSource(mFilePath);
+            } else if (mType == 2) {
+                Uri uri = Uri.parse("android.resource://com.so.mymusic/" + R.raw.one);
+                mediaPlayer.setDataSource(this, uri);
+            } else {
+                return;
+            }
 
-//            ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-//
-//            StringBuffer sb = new StringBuffer();
-//            String tmpStr;
-//            // 从字节流中读取5个字节
-//            for (int i = 0; i < bytes.length; i++) {
-//                // 若能继续读取下一个字节，则读取下一个字节
-//                if (bais.available() >= 0) {
-//                    // 读取“字节流的下一个字节”
-//                    tmpStr = Integer.valueOf(bais.read()).toString();
-////                    tmpStr = Integer.toHexString(bais.read()).toString();
-//                    sb.append(tmpStr);
-////                    System.out.printf("%d : 0x%s\n", i, Integer.toHexString(tmp));
-//                }
-//            }
-//            Log.i(TAG, "s: " + sb.toString());
-
-            File file2 = new File(mFilePath + "aa");
-            OutputStream out = new FileOutputStream(file2);
-
-            out.write(bytes);
-//            System.out.println("文件大小为："+file.length());
-//            System.out.println("文件名为："+file.getName());
-            out.close();//关闭文件流
-
-//            //fd打开
-//            FileDescriptor fd = music.getFD();
-//            mediaPlayer.setDataSource(fd);
-//            mediaPlayer.setLooping(true);
-//            mediaPlayer.prepare();
-
-//            music.read(bytes, 0, bytes.length);
-//            Log.i(TAG, "len: " + bytes.length);
-////            for (int i = 0; i < bytes.length; i++) {
-////                if (bytes[i] == 127) {
-////                } else {
-////                    bytes[i]++;
-////                }
-////            }
-////            Log.i(TAG, "len: " + bytes.length);
-////            String s = bytes.toString();
-//            SToH sToH = new SToH();
-//            String s1 = sToH.byteArrToStr(bytes);
-//
-////            String s1 = sToH.StrToHexC(s);
-//            Log.i(TAG, "str: " + s1);
-////            Log.i(TAG, "len: " + bytes.length);
-
+            //1.2 设置为循环, MediaPlayer预加载
+            mediaPlayer.setLooping(true);
+            mediaPlayer.prepare();
         } catch (Exception e) {
             e.printStackTrace();
         }
